@@ -1,0 +1,53 @@
+/* Desktop-only UI: update prompt. */
+.update-card {
+  max-width: 480px;
+}
+.update-card p {
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+.update-card__notes summary {
+  cursor: pointer;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.update-card__body {
+  max-height: 240px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-size: 13px;
+  line-height: 1.5;
+  background: var(--gray-50);
+  padding: 12px;
+  border-radius: var(--radius);
+}
+.update-card__error {
+  color: var(--error-text);
+  font-size: 13px;
+}
+.update-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Account dialog. */
+.account-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+.account-panel p {
+  margin: 0;
+  line-height: 1.5;
+}
+.account-panel__tabs {
+  display: flex;
+  gap: 8px;
+}
+.account-panel__error {
+  color: var(--error-text);
+  font-size: 13px;
+}

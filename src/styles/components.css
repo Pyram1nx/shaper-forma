@@ -1,0 +1,492 @@
+/* Shared component classes. Feature dialogs (3D carve, paper scan) use these so
+   everything matches the Studio look. */
+
+/* ---------- Full-screen workspace dialog (like Studio's "Edit Text") ---------- */
+.ss-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  color: var(--gray-900);
+  font-family: var(--font-ui);
+  animation: ss-fade 0.16s ease-out;
+}
+.ss-dialog__header {
+  height: 60px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  position: relative;
+}
+.ss-dialog__header svg {
+  width: 24px;
+  height: 24px;
+}
+.ss-dialog__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  position: relative;
+}
+.ss-dialog__main {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  background: var(--gray-50);
+}
+.ss-dialog__side {
+  width: 320px;
+  flex: none;
+  background: var(--gray-100);
+  border-left: 1px solid var(--gray-200);
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ss-dialog__footer {
+  height: 80px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+@keyframes ss-fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (max-width: 700px) {
+  .ss-dialog__body {
+    flex-direction: column;
+  }
+  .ss-dialog__side {
+    width: 100%;
+    max-height: 45%;
+    border-left: none;
+    border-top: 1px solid var(--gray-200);
+  }
+}
+
+/* One focus treatment for everything keyboard users can reach. */
+:focus-visible {
+  outline: 2px solid var(--blue-050);
+  outline-offset: 2px;
+}
+
+/* ---------- Buttons ---------- */
+.ss-btn {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-900);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.ss-btn:hover {
+  background: var(--gray-50);
+}
+.ss-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ss-btn--primary {
+  background: var(--blue-050);
+  border-color: var(--blue-050);
+  color: var(--white);
+}
+.ss-btn--primary:hover {
+  background: var(--blue-060);
+}
+.ss-btn--sm {
+  height: var(--control-h);
+  padding: 0 12px;
+  font-size: 13px;
+}
+.ss-btn--block {
+  width: 100%;
+}
+.ss-btn-round {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: none;
+  background: var(--gray-100);
+  color: var(--gray-900);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: none;
+}
+.ss-btn-round:hover {
+  background: var(--gray-200);
+}
+.ss-btn-round--dark {
+  background: var(--gray-800);
+  color: var(--white);
+}
+.ss-btn-round--dark:hover {
+  background: var(--gray-900);
+}
+.ss-btn-round svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---------- Parameter panel ---------- */
+.ss-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  padding: 13px 16px 16px;
+  color: var(--panel-text);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ss-panel__header {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: lowercase;
+  color: var(--panel-text);
+}
+.ss-section-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-700);
+  letter-spacing: 0.01em;
+  text-transform: lowercase;
+}
+.ss-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ss-label {
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-transform: lowercase;
+  color: var(--panel-label);
+  padding-left: 12px;
+}
+.ss-input {
+  height: var(--control-h);
+  border-radius: var(--radius);
+  background: var(--input-bg);
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  padding: 0 9px;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--input-text);
+}
+.ss-input:focus-within {
+  border-color: var(--blue-050);
+}
+.ss-input input,
+.ss-input select {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font: inherit;
+  font-weight: 500;
+  color: inherit;
+}
+.ss-input__adorn {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--panel-label);
+}
+.ss-select {
+  height: var(--control-h-lg);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  color: var(--input-text);
+  border: 1px solid transparent;
+  font: 500 14px var(--font-ui);
+  padding: 0 8px;
+  width: 100%;
+}
+
+/* Segmented control: one style everywhere. Light: white track with a grey border.
+   Dark (Plan settings): grey track with a grey ring. Active segment is blue. */
+.ss-seg {
+  display: inline-flex;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.ss-seg button {
+  border: none;
+  background: transparent;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font: 500 13px var(--font-ui);
+  color: var(--gray-900);
+  cursor: pointer;
+}
+.ss-seg button:hover {
+  background: var(--gray-50);
+}
+.ss-seg button.is-active,
+.ss-seg button[aria-pressed='true'] {
+  background: var(--blue-050);
+  color: var(--white);
+}
+/* Units toggle reads IN | MM. */
+.ss-seg--units button {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+}
+.settings-pop--plan .ss-seg {
+  background: var(--gray-800);
+  border: none;
+  box-shadow: inset 0 0 0 1px var(--gray-600);
+}
+.settings-pop--plan .ss-seg button:hover {
+  background: var(--gray-700);
+}
+
+/* Checkbox row: one style for the Design popovers and the feature dialogs. */
+.ss-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray-800);
+  cursor: pointer;
+}
+.ss-check input {
+  margin: 0;
+  accent-color: var(--blue-050);
+}
+
+/* Toggle switch: 48x24 pill. Light variant is blue when on; .ss-switch--dark is the Plan variant. */
+.ss-switch {
+  width: 48px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  flex: none;
+  background: var(--gray-200);
+  box-shadow: inset 0 0 0 1px var(--gray-300);
+  transition: background 0.15s;
+}
+.ss-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 1px 2px rgba(10, 10, 11, 0.25);
+  transition: left 0.15s;
+}
+.ss-switch.is-on {
+  background: var(--blue-050);
+  box-shadow: none;
+}
+.ss-switch.is-on::after {
+  left: 26px;
+}
+.ss-switch--dark {
+  background: var(--gray-700);
+  box-shadow: inset 0 0 0 1px var(--white);
+}
+.ss-switch--dark.is-on {
+  background: var(--switch-dark-on);
+  box-shadow: inset 0 0 0 1px var(--blue-tint);
+}
+.ss-switch--sm {
+  width: 36px;
+  height: 20px;
+}
+.ss-switch--sm::after {
+  width: 16px;
+  height: 16px;
+}
+.ss-switch--sm.is-on::after {
+  left: 18px;
+}
+
+/* Tiles (template / bit gallery) */
+.ss-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+}
+.ss-tile {
+  border-radius: var(--radius);
+  background: var(--blue-light);
+  border: 2px solid transparent;
+  color: var(--blue-070);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 4px;
+  font: 500 11px var(--font-ui);
+  text-align: center;
+}
+.ss-tile:hover {
+  border-color: var(--blue-soft);
+}
+.ss-tile.is-active {
+  border-color: var(--blue-050);
+  background: var(--white);
+}
+
+.ss-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+.ss-muted {
+  color: var(--gray-500);
+  font-size: 12px;
+}
+/* Grey panels need the darker muted text to stay readable. */
+.ss-panel .ss-muted,
+.group-info .ss-muted {
+  color: var(--gray-600);
+}
+.theme--plan .ss-panel .ss-muted {
+  color: var(--gray-200);
+}
+.ss-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--blue-light);
+  color: var(--blue-070);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+/* "new" chips use the snap red. */
+.ss-badge--new {
+  background: var(--snap-red);
+  color: var(--white);
+}
+.ss-dropzone {
+  border: 2px dashed var(--gray-300);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px;
+  color: var(--gray-600);
+  text-align: center;
+  cursor: pointer;
+}
+.ss-dropzone.is-over {
+  border-color: var(--blue-050);
+  background: var(--blue-lighter);
+}
+.ss-range {
+  width: 100%;
+  accent-color: var(--blue-050);
+}
+
+/* Temporary test loading screen: full-bleed overlay with the domino mark. */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--white);
+}
+.loading-domino svg {
+  width: 120px;
+  height: 24px;
+}
+/* Columns flip in sequence, like dominos falling left to right. */
+.loading-domino path {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: domino-fall 1.3s ease-in-out infinite;
+}
+#oval13,
+#oval14 {
+  animation-delay: 0.78s;
+}
+#oval11,
+#oval12 {
+  animation-delay: 0.65s;
+}
+#oval09,
+#oval10 {
+  animation-delay: 0.52s;
+}
+#oval07,
+#oval08 {
+  animation-delay: 0.39s;
+}
+#oval05,
+#oval06 {
+  animation-delay: 0.26s;
+}
+#oval03,
+#oval04 {
+  animation-delay: 0.13s;
+}
+#oval01,
+#oval02 {
+  animation-delay: 0s;
+}
+@keyframes domino-fall {
+  0%,
+  70%,
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  35% {
+    transform: scaleY(0.3);
+    opacity: 0.35;
+  }
+}

@@ -1,0 +1,424 @@
+/* Trace editor. Shares the full-screen mode layout from app.css (.modeview*),
+   plus the stage, the sweep-reveal animation and the control panel. */
+
+/* ---------- Header title: centred, Shaper Forma ---------- */
+.trace__title {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font: 400 15px/1 'Shaper Forma', var(--font-ui);
+  letter-spacing: 0.02em;
+  color: var(--gray-900);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ---------- Stage ---------- */
+.trace__main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.trace-stage {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.trace-stage__inner {
+  position: relative;
+  flex: none;
+  background: var(--white);
+  box-shadow: var(--shadow-pop);
+}
+.trace-stage__inner > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.trace-video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius-lg);
+  background: var(--gray-900);
+}
+.trace-capture {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+.trace-drop {
+  width: min(520px, 100%);
+  box-sizing: border-box;
+  background: var(--white);
+}
+.trace-drop__icon {
+  width: 48px;
+  height: 48px;
+  color: var(--blue-050);
+}
+
+/* ---------- Corner overlay ---------- */
+.trace-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  touch-action: none;
+  user-select: none;
+}
+.trace-overlay__shade {
+  fill: rgba(10, 10, 11, 0.5);
+}
+.trace-overlay__quad {
+  fill: rgba(44, 101, 255, 0.08);
+  stroke: var(--blue-050);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.trace-handle {
+  fill: var(--blue-050);
+  stroke: var(--white);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  cursor: grab;
+  touch-action: none;
+}
+.trace-handle:active {
+  cursor: grabbing;
+}
+.trace-loupe {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 160px;
+  height: 160px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--white);
+  box-shadow: var(--shadow-pop);
+  background: var(--white);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---------- Sweep reveal animation ---------- */
+.trace-revealbox {
+  position: relative;
+  overflow: hidden;
+}
+.trace-revealbox > canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.trace-reveal {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.trace-vec {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.trace-vec path {
+  fill: none;
+  stroke: var(--blue-060);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+}
+.trace-reveal__line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 2px;
+  background: var(--blue-050);
+  box-shadow: 0 0 8px rgba(44, 101, 255, 0.55);
+  pointer-events: none;
+}
+/* Stage 1: the line sweeps across the black & white page (keyframes; the
+   "wait" state parks it at the right edge via the same animation's fill). */
+.trace-reveal__line--pixel {
+  animation: trace-sweep var(--sweep-ms, 1300ms) linear forwards;
+}
+@keyframes trace-sweep {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}
+/* Stage 2: the line rides the reveal boundary, synced with the clip-path. */
+.trace-reveal .trace-vec {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--sweep-ms, 1300ms) linear;
+}
+.trace-reveal--run .trace-vec {
+  clip-path: inset(0 0 0 0);
+}
+.trace-reveal--run .trace-reveal__line {
+  left: 100%;
+  transition: left var(--sweep-ms, 1300ms) linear;
+}
+
+.trace-converting {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-900);
+  color: var(--white);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  z-index: 2;
+}
+
+/* ---------- Sidebar bits ---------- */
+.trace-select {
+  width: 100%;
+}
+.trace-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.trace-row .ss-select {
+  flex: 1;
+  min-width: 0;
+}
+.trace-seg {
+  background: var(--white);
+}
+.trace-seg button {
+  flex: 1;
+  white-space: nowrap;
+  padding: 0 4px;
+}
+.trace-warn {
+  color: var(--warn-text);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.trace-error {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--error-text);
+  font-size: 12px;
+  box-shadow: var(--shadow-pop);
+  z-index: 3;
+}
+.trace-busy {
+  position: absolute;
+  top: 52px;
+  left: 16px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-900);
+  color: var(--white);
+  font-size: 12px;
+}
+.trace-busy::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-500);
+  border-top-color: var(--white);
+  animation: trace-spin 0.8s linear infinite;
+}
+@keyframes trace-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Stats block: fades in with the controls after the reveal. */
+.trace-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.45s ease 0.15s, transform 0.45s ease 0.15s;
+  pointer-events: none;
+}
+.trace-stats.is-in {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.trace-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--gray-700);
+}
+.trace-stat strong {
+  font-weight: 500;
+  color: var(--gray-900);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ---------- Confirm button (big blue circle + check) ---------- */
+.trace-confirm {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--blue-050);
+  color: var(--white);
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(44, 101, 255, 0.35);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.trace-confirm:hover:not(:disabled) {
+  background: var(--blue-060);
+}
+.trace-confirm:active:not(:disabled) {
+  transform: scale(0.94);
+}
+.trace-confirm:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ---------- Modify picking ---------- */
+.trace-vec--pick {
+  pointer-events: auto;
+  background: var(--white);
+  box-shadow: var(--shadow-pop);
+}
+.trace-group {
+  fill: none;
+  stroke: var(--gray-300);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  cursor: pointer;
+}
+.trace-group.is-kept {
+  stroke: var(--blue-060);
+}
+.trace-group-hit {
+  fill: transparent; /* closed shapes are tappable anywhere inside, too */
+  stroke: transparent;
+  stroke-width: 14px;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+/* ---------- Mobile control panel ---------- */
+.trace-controls {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .modeview.trace {
+    flex-direction: column;
+  }
+  .modeview__panel {
+    display: none;
+  }
+  .trace-stage {
+    padding: 40px 10px 12px;
+  }
+  /* The drawing fills the screen, framed on the traced selection. */
+  .trace-stage__inner {
+    box-shadow: none;
+  }
+  .trace-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex: none;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--gray-200);
+    background: var(--gray-100);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.45s ease 0.15s, transform 0.45s ease 0.15s;
+  }
+  .trace-controls.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  .trace-controls__row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: 100%;
+  }
+  .trace-controls__text {
+    border: none;
+    background: transparent;
+    color: var(--gray-900);
+    font: 500 14px var(--font-ui);
+    cursor: pointer;
+    padding: 8px 4px;
+  }
+  .trace-controls__text:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  /* On mobile the sidebar (photo choice, paper size, corners) shows as a
+     bottom sheet during the pick/frame/edit phases only. */
+  .modeview.trace--frame .modeview__panel {
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: 100%;
+    max-height: 46%;
+    border-left: none;
+    border-top: 1px solid var(--gray-200);
+    padding-top: 40px;
+    z-index: 4;
+  }
+  .trace-confirm {
+    width: 64px;
+    height: 64px;
+  }
+  .trace-converting {
+    bottom: 190px;
+  }
+}

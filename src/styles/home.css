@@ -1,0 +1,217 @@
+/* Home window: saved designs and the account. Shares the studio's tokens and buttons. */
+.home {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  font-family: var(--font-ui);
+  overflow: hidden;
+}
+
+.home__side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 14px;
+  background: var(--gray-100);
+  border-right: 1px solid var(--gray-200);
+  min-height: 0;
+}
+.home__brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px;
+  font-weight: 600;
+  font-size: 15px;
+}
+.home__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.home__nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--gray-700);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+.home__nav-item:hover {
+  background: var(--gray-200);
+}
+.home__nav-item[aria-current='page'] {
+  background: var(--white);
+  color: var(--gray-900);
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(10, 10, 11, 0.08);
+}
+.home__account-chip {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--gray-900);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+.home__account-chip:hover {
+  background: var(--gray-200);
+}
+.home__avatar {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  color: var(--blue-070);
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 13px;
+}
+.home__account-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home__main {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 32px 40px;
+}
+.home__main h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+.home__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.home__head p {
+  margin: 4px 0 0;
+}
+.home__error {
+  color: var(--error-text);
+  font-size: 13px;
+  margin: 0 0 16px;
+}
+
+.home-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.home-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 0 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.home-card:hover {
+  border-color: var(--blue-soft);
+  box-shadow: var(--shadow-pop);
+}
+.home-card:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.home-card__thumb {
+  height: 140px;
+  display: grid;
+  place-items: center;
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--gray-200);
+  color: var(--gray-400);
+  padding: 12px;
+  box-sizing: border-box;
+}
+.home-card__thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.home-card__name {
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.home-card__meta {
+  padding: 0 14px;
+  font-size: 12px;
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 80px;
+  text-align: center;
+  color: var(--gray-500);
+}
+.home-empty h2 {
+  margin: 8px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+.home-empty p {
+  margin: 0 0 12px;
+}
+
+.home-account {
+  max-width: 480px;
+}
+.home-account__card {
+  margin-top: 20px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+}
+.home-account__card .account-panel {
+  margin-top: 0;
+}

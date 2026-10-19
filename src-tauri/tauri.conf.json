@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Shaper forma",
+  "version": "0.1.0",
+  "identifier": "app.shaperforma.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "home",
+        "title": "Shaper forma",
+        "url": "/?view=home",
+        "width": 1080,
+        "height": 700,
+        "minWidth": 720,
+        "minHeight": 520
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "DeveloperTool",
+    "shortDescription": "Design and cut planning for Shaper Origin",
+    "icon": [
+      "icons/32x32.png",
+      "icons/64x64.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDdFRjREMzU0REY4RDM2RkIKUldUN05vM2ZWTlAwZnNuRWpNSklDc002WHN6UDkzVkJhaEVQQ1M4S2hOYjRHbENPR2Q1VnpFZ1cK",
+      "endpoints": [
+        "https://github.com/Pyram1nx/shaper-forma/releases/latest/download/latest.json"
+      ]
+    }
+  }
+}

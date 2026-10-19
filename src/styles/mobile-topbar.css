@@ -1,0 +1,109 @@
+/* Mobile (<=700px) overrides: topbar */
+/* Desktop: only the selected tab shows its icon. */
+.mode-switcher__icon {
+  display: inline-flex;
+}
+.mode-switcher__tab:not(.is-selected) .mode-switcher__icon {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .app-launcher {
+    top: 15px;
+    left: 15px;
+  }
+  .app-launcher__name {
+    display: none;
+  }
+  .app-launcher__name-input {
+    display: none;
+  }
+
+  /* Pill group: [mode dropdown] [plan] [review] */
+  .top-right {
+    top: 15px;
+    right: 15px;
+    gap: 0;
+  }
+  .mode-switcher {
+    height: 40px;
+    gap: 0;
+    padding: 0;
+    border-radius: 20px;
+    align-items: center;
+    background: var(--gray-50);
+  }
+  .mode-switcher__tab {
+    height: 40px;
+    padding: 0;
+    border-radius: 20px;
+    justify-content: center;
+    border-width: 2px;
+  }
+  .mode-switcher__tab:not(.is-selected) {
+    width: 40px;
+    order: 2;
+  }
+  .mode-switcher__tab.is-selected {
+    order: 1;
+    padding: 0 12px 0 10px;
+    gap: 8px;
+  }
+  .mode-switcher__tab:not(.is-selected) .mode-switcher__icon {
+    display: inline-flex;
+  }
+  .mode-switcher__tab:not(.is-selected) .mode-switcher__text {
+    display: none;
+  }
+  .mode-switcher__tab.is-selected .mode-switcher__text {
+    display: inline;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+  }
+
+  /* Recenter / zoom-to-selection: second row, far right. */
+  .top-right > .hover-btn {
+    position: fixed;
+    top: 66px;
+    right: 15px;
+  }
+  .top-right > .hover-btn .ui-round {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border-color: transparent;
+  }
+  .top-right .hover-btn__label {
+    display: none;
+  }
+
+  /* Undo / redo: second row, far left. */
+  .undo-redo {
+    top: 66px;
+    left: 15px;
+    flex-direction: row;
+    gap: 4px;
+  }
+  .undo-redo .ui-round {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border-color: transparent;
+  }
+  .undo-redo .hover-btn__label {
+    display: none;
+  }
+
+  /* Settings card below the mode button. */
+  .settings-pop {
+    width: 280px;
+    top: 50px;
+    right: 0;
+  }
+}
+
+/* Undo always present on mobile (dimmed when empty); hidden on desktop. */
+.undo-redo .is-empty { display: none; }
+@media (max-width: 700px) {
+  .undo-redo .is-empty { display: inline-flex; opacity: 0.3; pointer-events: none; }
+}

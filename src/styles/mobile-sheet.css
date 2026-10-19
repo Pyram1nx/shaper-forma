@@ -1,0 +1,181 @@
+/* Mobile (<=700px) overrides: properties bottom sheet */
+.sheet-tabs,
+.sheet-collapse {
+  display: none;
+}
+.sheet-tabs__dot {
+  width: 6px;
+  height: 6px;
+  background: #e5484d;
+}
+
+@media (max-width: 700px) {
+  .right-dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    max-height: 60vh;
+    transform: none;
+    gap: 0;
+    align-items: stretch;
+    z-index: 20;
+  }
+  .right-dock .ss-panel {
+    width: auto;
+    border-radius: 16px 16px 0 0;
+    border: 1px solid var(--gray-200);
+    border-bottom: none;
+    padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    gap: 10px;
+    box-shadow: 0 -2px 12px rgba(20, 22, 30, 0.08);
+  }
+  .reference-btn {
+    position: absolute;
+    right: 16px;
+    bottom: calc(100% + 12px);
+    width: 42px;
+    height: 42px;
+  }
+
+  /* Header: shape type + collapse chevron */
+  .design-panel .ss-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    color: var(--gray-700);
+  }
+  .sheet-collapse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin: -6px -6px -6px 0;
+    border: none;
+    background: none;
+    color: var(--gray-700);
+    cursor: pointer;
+  }
+  /* Pill tabs */
+  .sheet-tabs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .sheet-tabs__tab {
+    min-width: 40px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: none;
+    color: var(--gray-900);
+    font: 500 14px var(--font-ui);
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .sheet-tabs__tab.is-active {
+    background: var(--gray-200);
+  }
+  .sheet-tabs__tab:last-child {
+    background: var(--white);
+    border-color: var(--gray-200);
+    margin-left: 4px;
+  }
+  .sheet-tabs__tab:last-child.is-active {
+    border-color: var(--blue-050);
+  }
+
+  /* Only the active tab's content is shown */
+  .design-panel[data-mtab] [data-tab] {
+    display: none;
+  }
+  .design-panel[data-mtab='size'] [data-tab='size'],
+  .design-panel[data-mtab='sides'] [data-tab='sides'],
+  .design-panel[data-mtab='radius'] [data-tab='radius'],
+  .design-panel[data-mtab='params'] [data-tab='params'],
+  .design-panel[data-mtab='rotation'] [data-tab='rotation'] {
+    display: flex;
+  }
+  .design-panel[data-mtab='more'] [data-tab='more'] {
+    display: flex;
+  }
+  /* The sheet is opened by the pencil button (ss:open-props-sheet) and closed by its chevron. */
+  .right-dock:has(.design-panel):not(.is-sheet-open) {
+    display: none;
+  }
+
+  /* Fields inside the sheet: no labels, W/H side by side, bigger inputs */
+  .design-panel .ss-field > .ss-label {
+    display: none;
+  }
+  .design-panel .size-fields {
+    gap: 12px;
+  }
+  .design-panel .size-fields {
+    gap: 8px;
+  }
+  .design-panel .size-fields__inputs {
+    display: contents;
+  }
+  .design-panel .size-fields__inputs > :first-child {
+    order: 1;
+  }
+  .design-panel .size-fields .lock-ratio {
+    order: 2;
+  }
+  .design-panel .size-fields__inputs > :last-child {
+    order: 3;
+  }
+  .design-panel .size-fields .ss-input {
+    flex: 1;
+    min-width: 0;
+  }
+  .design-panel .size-fields__inputs > .ss-input {
+    flex: 1;
+  }
+  .design-panel .ss-input {
+    height: 48px;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 0 16px;
+  }
+  .design-panel .ss-input__adorn {
+    font-size: 16px;
+    order: -1;
+  }
+  .design-panel .ss-input .ss-input__adorn:last-child {
+    order: 0;
+  }
+  .design-panel .lock-ratio {
+    width: 42px;
+    height: 42px;
+  }
+  .design-panel .group-info {
+    margin-top: 0;
+  }
+
+  /* Plan panel: full-width sheet, no header */
+  .plan-panel {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+
+  /* Groups card: full-width strip under the top bar */
+  .groups-card {
+    left: 12px;
+    right: 12px;
+    bottom: auto;
+    top: 128px;
+    width: auto;
+    max-height: 30vh;
+  }
+}

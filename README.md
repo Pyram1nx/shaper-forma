@@ -1,0 +1,141 @@
+# Shaper forma
+
+A lightweight, fully client-side design studio for the Shaper Origin, modelled on
+Shaper Tools' Studio (layout, colours, IBM Plex Sans type, Design / Plan / Review
+modes), with two extras:
+
+- **3D Carve:** drop in an STL / OBJ / GLB model, pick a bit from the gallery, and
+  it slices the model into layers. For each layer it calculates the cut depth and the
+  bit-compensated offset, so V-bits, ball noses and bull noses leave the model's
+  surface instead of gouging it.
+- **Paper Scan:** photograph a sketch on paper, pick the paper size, and the
+  page is flattened and the pen lines are vectorised into **real-size** paths.
+
+Everything runs on your computer. Designs are saved as files you control. The editor
+works without an account; an optional account (email and password) is available when
+the build is configured with an accounts API.
+
+## Features
+
+| Area | What you get |
+| --- | --- |
+| Design | Pen tool, Make Shape (circle, ellipse, rectangle, rounded rect, polygon, triangle + 14 templates), text to outlines (IBM Plex Sans or your own font), SVG import (hidden layers skipped, local `<use>` resolved, unsupported content reported), move / scale / rotate / anchor, smart-alignment snapping, Offset (open paths are stroked), ShapeShifter (union, subtract, intersect, exclude), mirror, duplicate (copies get their own groups), z-order, lock / unlock all. Units (in or mm) are set per design in the settings menu, and new designs start in the last unit you chose. |
+| Plan | Cut type (on line, guide, inside, pocket, outside), depth, offset, bit diameter (⅛ ¼ ½ presets + bit library), live tool-width preview. The cut path can be shown for every shape (Cut path display setting), drawn as marching cut paths. Units are also switchable here. |
+| Review | Depth-shaded material preview |
+| Files | Autosave + Open Recent (browser storage), **Save / Open `.shaperstudio` files on your computer** (writes back to the same file in Chrome / Edge), Export SVG for Origin. New, Open, Import and Open Recent ask before discarding unsaved changes. |
+| 3D Carve | STL/OBJ/GLB/GLTF, units + up-axis + fit-to-size, Shaper's real catalogue of 20 bits (`docs/research/shaper-bits.json`, including the 3 that come in the box), step-down / layers / stock / margin, per-layer contour (guide) + compensated toolpath (on line) + pocket region (pocket), optional through-cut |
+| Paper Scan | Camera or photo upload, automatic paper corner detection with draggable corners, A3/A4/A5/Letter/Legal/Tabloid/custom, lighting correction, adaptive ink threshold, centerline or outline tracing, stroke-width estimate |
+
+### How cuts are encoded in the SVG
+
+Exported SVGs are real size (`width`/`height` in mm) and use Shaper's conventions.
+Cut type is encoded both as fill/stroke colour and as `shaper:cutType`, and depth is
+written as `shaper:cutDepth`. Guides are blue strokes.
+
+Cut offsets are **baked into the exported geometry**: outside grows the shape by the
+offset, inside and pocket shrink it, and on-line moves closed paths outward. The
+exported path is the path the bit edge follows, so no offset attribute is needed. The
+3D Carve toolpaths follow the same rule, since they are the exact path the bit centre
+must take for the chosen bit.
+
+### 3D Carve maths (short version)
+
+The model is sliced at sampled depths. For a layer with tip depth `dᵢ`, `S(d)` is the
+slice of the model that must remain at depth `d`, and `reach(h)` is the bit's cutting
+radius at height `h` above its tip. The bit centre must stay outside everything that
+is still standing above it. Taking every sampled depth `δ ≤ dᵢ`:
+
+```
+Forbiddenᵢ = ⋃ over sampled δ ≤ dᵢ of  offset(S(δ), reach(dᵢ − δ))
+```
+
+For a flat end mill this reduces to "offset by the radius". For a V-bit or ball nose
+the flank is accounted for at every sampled height in the layer. The boundary of
+`Forbiddenᵢ` is exported as an *on-line* toolpath. The pocket region is
+
+```
+pocketᵢ = stock − offset(Forbiddenᵢ, −r_top) − S(dᵢ)
+```
+
+where `r_top` is the bit's reach at the top of the layer, so the pocket never removes
+material that has to stay. Layers are cut shallow first.
+
+## Develop
+
+Requires Node 22 (see `.nvmrc`).
+
+```bash
+npm install
+npm run dev
+```
+
+```bash
+npm run build      # type-check + production build into dist/
+npm run preview    # serve the production build locally
+npm test           # unit tests (vitest): geometry, editor state, SVG and project file I/O
+```
+
+## Desktop app (macOS, Windows, Linux)
+
+The editor also ships as a native app built with [Tauri](https://tauri.app). The Rust
+shell lives in `src-tauri/`.
+
+```bash
+npm install
+npm run tauri dev       # run the desktop app with hot reload
+npm run tauri build     # build an installer for this machine
+```
+
+Building needs Rust 1.90 or newer (`rustup update stable`). On Linux, install the
+WebKitGTK packages listed in the [Tauri prerequisites](https://tauri.app/start/prerequisites/).
+
+### Home window
+
+The desktop app opens to a home window. It lists the designs saved on this computer
+(newest first, with a thumbnail), starts new designs, and has the account page. Opening
+a design, or using **Designs** in the studio's app menu, shows the studio in its own
+window. A design that is already open in the studio is switched to in place. In a
+browser the same screens open as tabs (`?view=home`).
+
+### Releases and updates
+
+- Pushing a tag such as `v0.2.0` runs `.github/workflows/release.yml`. It builds macOS
+  (Apple Silicon and Intel), Windows and Linux, and publishes a GitHub Release.
+- The release notes come from the matching `## <version>` section of `CHANGELOG.md`.
+- The app checks the latest release every time it opens. If there is a newer version it
+  shows the release notes on request and asks before downloading and installing.
+- Update packages are signed with a Tauri updater key. The private key is stored only as
+  the `TAURI_SIGNING_PRIVATE_KEY` repository secret. The public key is in
+  `src-tauri/tauri.conf.json`.
+- Before a release, bump `version` in `src-tauri/tauri.conf.json` and `package.json`,
+  and add a changelog section.
+
+### Accounts
+
+Accounts are optional. Set `VITE_API_URL` at build time to the base URL of an accounts
+API (see `server/index.mjs`). Without it, accounts are disabled and everything else works.
+
+## Project layout
+
+```
+src/
+  model/        document types, factories
+  geometry/     clipper offset/booleans, SVG path parser, primitives, templates
+  state/        zustand store (document, selection, view, undo/redo)
+  editor/       canvas, chrome, panels, popovers, text dialog, app menu
+  io/           save/open/autosave, SVG export/import (sanitised), text outlines
+  features/
+    carve3d/    3D model loading, slicer, bit gallery, carve planner
+    paper/      paper detection, homography, ink mask, centerline/outline tracing
+  home/         home window: saved designs and account page
+  styles/       design tokens + component styles
+src-tauri/      Tauri desktop shell (Rust): window, native file dialogs, updater
+server/         accounts API (AWS Lambda), stores users in S3
+docs/research/  design measurements taken from Shaper Studio
+```
+
+Shaper forma is an independent project and is not affiliated with Shaper Tools.
+
+## Licence
+
+MIT. See [LICENSE](LICENSE).

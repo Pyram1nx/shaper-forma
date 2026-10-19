@@ -1,0 +1,97 @@
+/* Design tokens measured from Shaper Studio (see docs/research/shaper-studio-design.md). */
+:root {
+  --font-ui: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-condensed: 'IBM Plex Sans Condensed', var(--font-ui);
+
+  --white: #fdfdfe;
+  --gray-50: #f6f7f9;
+  --gray-100: #edeef2;
+  --gray-200: #dfe1e7;
+  --gray-300: #b9bcc6;
+  --gray-400: #8e929f;
+  --gray-500: #72757e;
+  --gray-600: #56575d;
+  --gray-700: #3f4145;
+  --gray-800: #2a2b2d;
+  --gray-900: #0a0a0b;
+
+  --blue-050: #2c65ff;
+  --blue-060: #0546f6;
+  --blue-070: #0038d1;
+  --blue-light: #e2eaff;
+  --blue-lighter: #eef3ff;
+  --blue-tint: #d5e0ff;
+  --blue-soft: #6b93ff;
+
+  --cut-green: #1be09e;
+  --snap-red: #ff274e;
+  --export-yellow: #efdd3a;
+  --warn-orange: #e27718;
+  /* Muted warning text (Plan depth vs flute length) and the Plan switch's on-state. */
+  --warn-text: #a14b0b;
+  /* Error text (Carve3D and Paper validation). */
+  --error-text: #d61f3f;
+  --switch-dark-on: #2d3f70;
+  --blue-040-a: rgba(44, 101, 255, 0.4);
+  --focus-ring: var(--blue-050);
+
+  --sel-fill: rgba(184, 202, 255, 0.5);
+  --sel-stroke: #0546f6;
+  --path-fill: rgba(180, 185, 203, 0.18);
+
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 100px;
+
+  /* Control heights: text fields and stepper rows (32px), selects and cut-type trigger (35px). */
+  --control-h: 32px;
+  --control-h-lg: 35px;
+
+  --shadow-pop: 0 8px 24px rgba(10, 10, 11, 0.12), 0 2px 6px rgba(10, 10, 11, 0.08);
+
+  /* Theme slots (overridden by .theme--plan / .theme--review). */
+  --canvas-bg: var(--white);
+  --ui-text: var(--gray-900);
+  --ui-btn-bg: var(--white);
+  --ui-rail-bg: var(--gray-100);
+  --mode-track: var(--gray-50);
+  --mode-selected: var(--white);
+  --mode-selected-border: var(--gray-200);
+  --panel-bg: var(--gray-100);
+  --panel-border: var(--gray-200);
+  --panel-text: var(--gray-600);
+  --panel-label: var(--gray-600);
+  --input-bg: var(--white);
+  --input-text: var(--gray-900);
+}
+
+.theme--plan {
+  --canvas-bg: var(--gray-700);
+  --ui-text: var(--white);
+  --ui-btn-bg: var(--gray-700);
+  --ui-rail-bg: var(--gray-800);
+  --mode-track: var(--gray-900);
+  --mode-selected: var(--gray-800);
+  --mode-selected-border: var(--gray-900);
+  --panel-bg: var(--gray-900);
+  --panel-border: var(--gray-900);
+  --panel-text: var(--white);
+  --panel-label: var(--gray-200);
+  --input-bg: var(--gray-800);
+  --input-text: var(--white);
+}
+
+.theme--review {
+  /* Review sheet colour (measured in Studio). */
+  --canvas-bg: #dfe1e7;
+  --mode-track: var(--gray-400);
+}
+/* Shaper's brand face, used for mode titles (Trace). */
+@font-face {
+  font-family: 'Shaper Forma';
+  src: url('/fonts/ShaperForma-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
